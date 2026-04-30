@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIT Projects Relevance</title>
+    <!-- Using Bootstrap 4 as it classically integrates with jQuery for components -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .tab-content {
+            border: 1px solid #dee2e6;
+            border-top: none;
+            padding: 20px;
+            border-radius: 0 0 0.25rem 0.25rem;
+            background-color: #f8f9fa;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #f8f9fa;
+            border-bottom-color: #f8f9fa;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="container mt-5">
+
+    <h2 class="mb-4 text-center text-primary">Relevance of Projects in VIT</h2>
+    <p class="text-center text-muted mb-5">Explore the importance of various project methodologies taught in our curriculum.</p>
+
+    <!-- Nav tabs (dynamic tabs) -->
+    <ul class="nav nav-tabs" id="vitProjectTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="sdp-tab" data-toggle="tab" href="#sdp" role="tab" aria-controls="sdp" aria-selected="true">SDP</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="edi-tab" data-toggle="tab" href="#edi" role="tab" aria-controls="edi" aria-selected="false">EDI</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="dt-tab" data-toggle="tab" href="#dt" role="tab" aria-controls="dt" aria-selected="false">DT</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="course-tab" data-toggle="tab" href="#course" role="tab" aria-controls="course" aria-selected="false">Course Projects</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content" id="vitProjectTabsContent">
+        <!-- SDP Content -->
+        <div class="tab-pane fade show active" id="sdp" role="tabpanel" aria-labelledby="sdp-tab">
+            <h4>Software Development Project (SDP)</h4>
+            <p>SDP focuses on the core principles of software engineering. Students learn to gather requirements, design system architecture, write clean and maintainable code, and properly test their applications before deployment.</p>
+            <ul>
+                <li>Simulates real-world software lifecycles.</li>
+                <li>Focuses on teamwork and version control.</li>
+            </ul>
+        </div>
+        
+        <!-- EDI Content -->
+        <div class="tab-pane fade" id="edi" role="tabpanel" aria-labelledby="edi-tab">
+            <h4>Engineering Design and Innovation (EDI)</h4>
+            <p>EDI challenges students to think outside the box. It bridges the gap between hardware, software, and mechanical principles. Students prototype and build innovative solutions using microcontrollers, sensors, and basic circuits.</p>
+            <ul>
+                <li>Encourages multidisciplinary learning.</li>
+                <li>Hands-on prototyping and problem-solving.</li>
+            </ul>
+        </div>
+
+        <!-- DT Content -->
+        <div class="tab-pane fade" id="dt" role="tabpanel" aria-labelledby="dt-tab">
+            <h4>Design Thinking (DT)</h4>
+            <p>Design Thinking is a human-centered approach to innovation. It integrates the needs of people, the possibilities of technology, and the requirements for business success. It helps students emphasize empathy, ideation, and rapid prototyping.</p>
+            <ul>
+                <li>Focuses heavily on user empathy.</li>
+                <li>Iterative process of testing and refinement.</li>
+            </ul>
+        </div>
+
+        <!-- Course Projects Content -->
+        <div class="tab-pane fade" id="course" role="tabpanel" aria-labelledby="course-tab">
+            <h4>Course Projects</h4>
+            <p>Course projects are tied to specific subjects within the semester (like Database Management, Web Technologies, etc.). They ensure that the theoretical knowledge learned in lectures is properly applied through practical implementation.</p>
+            <ul>
+                <li>Deepens subject-specific knowledge.</li>
+                <li>Allows for continuous assessment of practical skills.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom jQuery logic (Optional, to demonstrate explicit jQuery usage) -->
+    <script>
+        $(document).ready(function(){
+            // Intercepting tab clicks using jQuery events provided by Bootstrap
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                // e.target is the newly activated tab
+                // e.relatedTarget is the previous active tab
+                let activatedTabName = $(e.target).text();
+                console.log("User switched to: " + activatedTabName);
+                
+                // Add a small animation effect manually using jQuery on the pane
+                let targetPane = $(e.target).attr("href");
+                $(targetPane).hide().fadeIn(400);
+            });
+        });
+    </script>
+</body>
+</html>
