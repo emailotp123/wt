@@ -1,0 +1,58 @@
+/* Global Styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Video Background */
+#bg-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;          /* Push it behind everything */
+    object-fit: cover;    /* Make sure the video stays aspect correctly */
+}
+
+/* CV Window Styling */
+.cv-container {
+    background-color: rgba(255, 255, 255, 0.90); /* Semi-transparent to let video peek through */
+    padding: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+/* Titles and Images */
+.profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 3px solid #0d6efd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    color: #0d6efd;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+}
+
+ul {
+    padding-left: 1.2rem;
+}
+
+.progress {
+    background-color: #e9ecef;
+}

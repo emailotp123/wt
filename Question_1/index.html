@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My CV - Responsive Web Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Video Background -->
+    <video autoplay muted loop id="bg-video">
+        <!-- Using a placeholder open source video -->
+        <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- CV Main Container -->
+    <div class="container cv-container" id="cv-content" style="display: none;">
+        
+        <!-- Header -->
+        <div class="row align-items-center text-center text-md-start mb-4">
+            <div class="col-md-3">
+                <!-- Profile Image placeholder -->
+                <img src="https://via.placeholder.com/150" alt="Profile Image" class="profile-img">
+            </div>
+            <div class="col-md-9">
+                <h1 class="display-4 fw-bold">Vedant</h1>
+                <h4 class="text-muted">Software Engineering Student</h4>
+                <p>Passionate software engineering student with a strong foundation in web technologies and a keen interest in developing scalable, user-centric applications.</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Multiple Columns Layout -->
+        <div class="row mt-4">
+            
+            <!-- Left Column: Personal info & Skills (Bootstrap 4 columns out of 12) -->
+            <div class="col-lg-4 col-md-5 mb-4">
+                
+                <h3 class="section-title">Contact Info</h3>
+                <ul class="list-unstyled">
+                    <li><strong>Email:</strong> vedant@example.com</li>
+                    <li><strong>Phone:</strong> +91 12345 67890</li>
+                    <li><strong>Location:</strong> Pune, India</li>
+                    <li><strong>LinkedIn:</strong> linkedin.com/in/vedant</li>
+                </ul>
+
+                <h3 class="section-title mt-4">Skills</h3>
+                <div class="mb-2">
+                    <span>HTML/CSS</span>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 90%;"></div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <span>ReactJS</span>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <span>Node.js / Express</span>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%;"></div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <span>PHP & MySQL</span>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 85%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Education & Experience (Bootstrap 8 columns out of 12) -->
+            <div class="col-lg-8 col-md-7">
+                
+                <h3 class="section-title">Education</h3>
+                <div class="mb-3">
+                    <h5 class="fw-bold mb-1">Bachelor of Technology (B.Tech)</h5>
+                    <h6 class="text-primary mb-1">Vishwakarma Institute of Technology (VIT)</h6>
+                    <span class="text-muted small">2022 - 2026</span>
+                    <p class="mt-2">Currently pursuing third year. Relevant coursework includes Web Technologies, Database Management, and Software Engineering.</p>
+                </div>
+
+                <h3 class="section-title mt-4">Experience</h3>
+                <div class="mb-3">
+                    <h5 class="fw-bold mb-1">Web Development Intern</h5>
+                    <h6 class="text-primary mb-1">Tech Solutions Inc.</h6>
+                    <span class="text-muted small">May 2025 - July 2025</span>
+                    <ul class="mt-2">
+                        <li>Developed and maintained responsive web applications using React and Bootstrap.</li>
+                        <li>Assisted in designing user interfaces directly impacting 10k+ monthly visitors.</li>
+                        <li>Implemented session-based authentication to enhance security.</li>
+                    </ul>
+                </div>
+
+                <h3 class="section-title mt-4">Projects</h3>
+                <div class="row">
+                    <div class="col-sm-6 mb-3">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="card-body">
+                                <h5 class="card-title">Online Bookstore</h5>
+                                <p class="card-text small">Responsive website built with Spring Boot and MySQL. Includes authentication, catalog logic, and registration.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="card-body">
+                                <h5 class="card-title">Student Feedback Form</h5>
+                                <p class="card-text small">React-based app with controlled validation and dynamic component rendering utilizing React Hooks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom jQuery Script -->
+    <script>
+        $(document).ready(function() {
+            // Using jQuery to lazily fade in the CV content after page load
+            $('#cv-content').fadeIn(1500);
+        });
+    </script>
+</body>
+</html>
