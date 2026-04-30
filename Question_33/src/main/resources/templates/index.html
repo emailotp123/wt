@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Home Application</title>
+</head>
+<body>
+    <h2>Welcome to Question 33 Spring Boot App!</h2>
+    <p>You have successfully logged in.</p>
+    
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out" />
+    </form>
+</body>
+</html>
