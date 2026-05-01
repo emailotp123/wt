@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q31: Notifications (Redux)</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/redux@4/dist/redux.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 30px 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h2 { color: #333; }
+        .add-bar { background: #fff; padding: 16px 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        select, input { padding: 9px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        input { flex: 1; min-width: 160px; }
+        button { padding: 9px 18px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; }
+        .btn-add { background: #007bff; color: #fff; }
+        .notification { display: flex; align-items: flex-start; justify-content: space-between; padding: 12px 16px; border-radius: 7px; margin-bottom: 10px; font-size: 14px; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: translateY(0); } }
+        .notification.info    { background: #d1ecf1; border-left: 4px solid #17a2b8; color: #0c5460; }
+        .notification.success { background: #d4edda; border-left: 4px solid #28a745; color: #155724; }
+        .notification.warning { background: #fff3cd; border-left: 4px solid #ffc107; color: #856404; }
+        .notification.error   { background: #f8d7da; border-left: 4px solid #dc3545; color: #721c24; }
+        .notif-msg { flex: 1; }
+        .notif-type { font-size: 11px; font-weight: bold; text-transform: uppercase; opacity: 0.8; margin-bottom: 3px; }
+        .dismiss { background: none; border: none; cursor: pointer; font-size: 18px; opacity: 0.5; padding: 0 4px; color: inherit; }
+        .dismiss:hover { opacity: 1; }
+        .empty { color: #aaa; text-align: center; padding: 30px; font-size: 15px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        // Redux store
+        const ADD_NOTIFICATION    = 'ADD_NOTIFICATION';
+        const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
+
+        function reducer(state = [], action) {
+            switch (action.type) {
+                case ADD_NOTIFICATION:    return [action.payload, ...state];
+                case REMOVE_NOTIFICATION: return state.filter(n => n.id !== action.id);
+                default: return state;
+            }
+        }
+
+        const store = Redux.createStore(reducer);
+
+        const TYPES = ['info', 'success', 'warning', 'error'];
+
+        function App() {
+            const [notifications, setNotifications] = React.useState(store.getState());
+            const [msg, setMsg] = React.useState('');
+            const [type, setType] = React.useState('info');
+
+            React.useEffect(() => {
+                const unsub = store.subscribe(() => setNotifications([...store.getState()]));
+                return unsub;
+            }, []);
+
+            const addNotif = () => {
+                if (!msg.trim()) return;
+                store.dispatch({ type: ADD_NOTIFICATION, payload: { id: Date.now(), message: msg.trim(), type } });
+                setMsg('');
+            };
+
+            const dismiss = id => store.dispatch({ type: REMOVE_NOTIFICATION, id });
+
+            const icons = { info: 'ℹ️', success: '✅', warning: '⚠️', error: '❌' };
+
+            return (
+                <div className="container">
+                    <h2>System Notifications — Redux</h2>
+                    <div className="add-bar">
+                        <select value={type} onChange={e => setType(e.target.value)}>
+                            {TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
+                        </select>
+                        <input
+                            value={msg}
+                            onChange={e => setMsg(e.target.value)}
+                            onKeyDown={e => e.key === 'Enter' && addNotif()}
+                            placeholder="Type notification message..."
+                        />
+                        <button className="btn-add" onClick={addNotif}>Add</button>
+                    </div>
+                    {notifications.length === 0
+                        ? <div className="empty">No notifications. Add one above!</div>
+                        : notifications.map(n => (
+                            <div key={n.id} className={`notification ${n.type}`}>
+                                <div className="notif-msg">
+                                    <div className="notif-type">{icons[n.type]} {n.type}</div>
+                                    {n.message}
+                                </div>
+                                <button className="dismiss" onClick={() => dismiss(n.id)}>✕</button>
+                            </div>
+                          ))
+                    }
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

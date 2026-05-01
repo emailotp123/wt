@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q30: Product Filter (Redux)</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/redux@4/dist/redux.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h2 { color: #333; }
+        .filters { background: #fff; padding: 16px 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-bottom: 20px; display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end; }
+        .filter-group { display: flex; flex-direction: column; gap: 4px; }
+        label { font-size: 13px; font-weight: bold; color: #555; }
+        select, input { padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        button { padding: 9px 20px; background: #6c757d; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+        .product-card { background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+        .product-card h4 { margin: 0 0 6px; color: #333; }
+        .category { font-size: 12px; color: #007bff; font-weight: bold; text-transform: uppercase; }
+        .price { font-size: 20px; font-weight: bold; color: #28a745; margin: 8px 0 0; }
+        .empty { text-align: center; color: #aaa; padding: 40px; font-size: 16px; }
+        .count { color: #888; font-size: 14px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const PRODUCTS = [
+            { id:1, name:'Laptop Pro',     category:'Electronics', price:65000 },
+            { id:2, name:'Wireless Mouse', category:'Electronics', price:1200 },
+            { id:3, name:'Desk Chair',     category:'Furniture',   price:8500 },
+            { id:4, name:'Bookshelf',      category:'Furniture',   price:3200 },
+            { id:5, name:'T-Shirt',        category:'Clothing',    price:599 },
+            { id:6, name:'Jeans',          category:'Clothing',    price:1499 },
+            { id:7, name:'Headphones',     category:'Electronics', price:4500 },
+            { id:8, name:'Study Table',    category:'Furniture',   price:6800 },
+            { id:9, name:'Jacket',         category:'Clothing',    price:2200 },
+        ];
+
+        // Redux
+        const SET_CATEGORY  = 'SET_CATEGORY';
+        const SET_MAX_PRICE = 'SET_MAX_PRICE';
+        const RESET_FILTERS = 'RESET_FILTERS';
+
+        const initialState = { category: 'All', maxPrice: 100000, products: PRODUCTS };
+
+        function reducer(state = initialState, action) {
+            switch (action.type) {
+                case SET_CATEGORY:  return { ...state, category: action.payload };
+                case SET_MAX_PRICE: return { ...state, maxPrice: action.payload };
+                case RESET_FILTERS: return { ...state, category: 'All', maxPrice: 100000 };
+                default: return state;
+            }
+        }
+
+        const store = Redux.createStore(reducer);
+
+        function App() {
+            const [state, setState] = React.useState(store.getState());
+
+            React.useEffect(() => {
+                const unsub = store.subscribe(() => setState(store.getState()));
+                return unsub;
+            }, []);
+
+            const filtered = state.products.filter(p =>
+                (state.category === 'All' || p.category === state.category) &&
+                p.price <= state.maxPrice
+            );
+
+            const categories = ['All', ...new Set(PRODUCTS.map(p => p.category))];
+
+            return (
+                <div className="container">
+                    <h2>Product Filter — Redux</h2>
+                    <div className="filters">
+                        <div className="filter-group">
+                            <label>Category</label>
+                            <select value={state.category} onChange={e => store.dispatch({ type: SET_CATEGORY, payload: e.target.value })}>
+                                {categories.map(c => <option key={c}>{c}</option>)}
+                            </select>
+                        </div>
+                        <div className="filter-group">
+                            <label>Max Price: ₹{state.maxPrice.toLocaleString()}</label>
+                            <input type="range" min={500} max={100000} step={500}
+                                value={state.maxPrice}
+                                onChange={e => store.dispatch({ type: SET_MAX_PRICE, payload: +e.target.value })} />
+                        </div>
+                        <button onClick={() => store.dispatch({ type: RESET_FILTERS })}>Reset Filters</button>
+                    </div>
+                    <div className="count">{filtered.length} product(s) found</div>
+                    {filtered.length === 0
+                        ? <div className="empty">No products match the selected filters.</div>
+                        : <div className="grid">
+                            {filtered.map(p => (
+                                <div className="product-card" key={p.id}>
+                                    <div className="category">{p.category}</div>
+                                    <h4>{p.name}</h4>
+                                    <div className="price">₹{p.price.toLocaleString()}</div>
+                                </div>
+                            ))}
+                          </div>
+                    }
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

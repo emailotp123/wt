@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q28: Dark / Light Mode</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * { transition: background 0.3s, color 0.3s; }
+        body { margin: 0; font-family: Arial, sans-serif; }
+        .app { min-height: 100vh; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
+        .light { background: #f5f5f5; color: #222; }
+        .dark  { background: #1a1a2e; color: #e0e0e0; }
+        .card { padding: 30px; border-radius: 12px; max-width: 480px; width: 100%; margin-top: 20px; }
+        .card.light { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .card.dark  { background: #16213e; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        h2 { margin-top: 0; }
+        .toggle-btn { padding: 12px 28px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .toggle-btn.light { background: #222; color: #fff; }
+        .toggle-btn.dark  { background: #f0c040; color: #222; }
+        .badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-left: 10px; }
+        .badge.light { background: #007bff; color: #fff; }
+        .badge.dark  { background: #f0c040; color: #222; }
+        p { line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function App() {
+            const [dark, setDark] = React.useState(false);
+            const theme = dark ? 'dark' : 'light';
+
+            return (
+                <div className={`app ${theme}`}>
+                    <h2>
+                        Theme Toggle
+                        <span className={`badge ${theme}`}>{dark ? '🌙 Dark Mode' : '☀️ Light Mode'}</span>
+                    </h2>
+                    <button className={`toggle-btn ${theme}`} onClick={() => setDark(d => !d)}>
+                        {dark ? '☀️ Switch to Light Mode' : '🌙 Switch to Dark Mode'}
+                    </button>
+                    <div className={`card ${theme}`}>
+                        <h2>Sample Content</h2>
+                        <p>This React application uses <strong>useState()</strong> to manage the current theme. The background and text colors change dynamically when you toggle between Light Mode and Dark Mode.</p>
+                        <p>The selected theme persists as long as the component is mounted (state is maintained during re-renders).</p>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

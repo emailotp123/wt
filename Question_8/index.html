@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q8: Student Feedback Form</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 30px 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h2 { color: #333; }
+        .form-card { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin: 12px 0 4px; color: #555; }
+        input, select, textarea { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
+        textarea { resize: vertical; min-height: 80px; }
+        .err { color: red; font-size: 12px; margin-top: 3px; }
+        button { margin-top: 16px; padding: 10px 24px; background: #007bff; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 15px; }
+        button:hover { background: #0056b3; }
+        .feedback-list { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .feedback-item { border-left: 4px solid #007bff; padding: 10px 14px; margin-bottom: 12px; background: #f8f9fa; border-radius: 0 5px 5px 0; }
+        .feedback-item h4 { margin: 0 0 4px; color: #333; }
+        .stars { color: #f0c040; font-size: 18px; }
+        .badge { display: inline-block; background: #007bff; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 12px; margin-left: 8px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function FeedbackForm({ onSubmit }) {
+            const [form, setForm] = React.useState({ name: '', course: '', rating: '5', comment: '' });
+            const [errors, setErrors] = React.useState({});
+            const nameRef = React.useRef(null);
+
+            const validate = () => {
+                const e = {};
+                if (!form.name.trim()) e.name = 'Name is required';
+                if (!form.course.trim()) e.course = 'Course is required';
+                if (!form.comment.trim()) e.comment = 'Feedback comment is required';
+                return e;
+            };
+
+            const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+
+            const handleSubmit = e => {
+                e.preventDefault();
+                const e2 = validate();
+                if (Object.keys(e2).length) { setErrors(e2); nameRef.current.focus(); return; }
+                onSubmit({ ...form, id: Date.now() });
+                setForm({ name: '', course: '', rating: '5', comment: '' });
+                setErrors({});
+            };
+
+            return (
+                <form className="form-card" onSubmit={handleSubmit}>
+                    <h2 style={{marginTop:0}}>Student Feedback Form</h2>
+                    <label>Student Name</label>
+                    <input ref={nameRef} name="name" value={form.name} onChange={handleChange} placeholder="Enter your name" />
+                    {errors.name && <div className="err">{errors.name}</div>}
+
+                    <label>Course / Session</label>
+                    <input name="course" value={form.course} onChange={handleChange} placeholder="e.g. Web Technology Lab" />
+                    {errors.course && <div className="err">{errors.course}</div>}
+
+                    <label>Rating</label>
+                    <select name="rating" value={form.rating} onChange={handleChange}>
+                        {[5,4,3,2,1].map(r => <option key={r} value={r}>{r} Star{r>1?'s':''}</option>)}
+                    </select>
+
+                    <label>Feedback</label>
+                    <textarea name="comment" value={form.comment} onChange={handleChange} placeholder="Write your feedback here..." />
+                    {errors.comment && <div className="err">{errors.comment}</div>}
+
+                    <button type="submit">Submit Feedback</button>
+                </form>
+            );
+        }
+
+        function FeedbackList({ feedbacks }) {
+            if (!feedbacks.length) return null;
+            return (
+                <div className="feedback-list">
+                    <h3>Submitted Feedback ({feedbacks.length})</h3>
+                    {feedbacks.map(f => (
+                        <div key={f.id} className="feedback-item">
+                            <h4>{f.name} <span className="badge">{f.course}</span></h4>
+                            <div className="stars">{'★'.repeat(f.rating)}{'☆'.repeat(5 - f.rating)}</div>
+                            <p style={{margin:'6px 0 0',color:'#555'}}>{f.comment}</p>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+
+        function App() {
+            const [feedbacks, setFeedbacks] = React.useState([]);
+            return (
+                <div className="container">
+                    <FeedbackForm onSubmit={fb => setFeedbacks(prev => [fb, ...prev])} />
+                    <FeedbackList feedbacks={feedbacks} />
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

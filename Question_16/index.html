@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q16: Currency Converter</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; padding: 50px 20px; }
+        .card { background: #fff; padding: 35px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); max-width: 400px; width: 100%; text-align: center; }
+        h2 { color: #333; margin-top: 0; }
+        input[type=number] { width: 100%; padding: 12px; font-size: 18px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; text-align: center; }
+        .rate { color: #888; font-size: 13px; margin: 8px 0 20px; }
+        .result-box { background: #007bff; color: #fff; padding: 20px; border-radius: 8px; font-size: 26px; font-weight: bold; margin-top: 15px; }
+        .symbol { font-size: 16px; opacity: 0.8; margin-bottom: 5px; }
+        button { margin-top: 15px; padding: 10px 24px; background: #dc3545; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const RATE = 83.50;
+
+        function App() {
+            const [usd, setUsd] = React.useState('');
+
+            const inr = usd !== '' ? (parseFloat(usd) * RATE).toFixed(2) : null;
+
+            return (
+                <div className="card">
+                    <h2>💱 Currency Converter</h2>
+                    <input
+                        type="number"
+                        min="0"
+                        placeholder="Enter amount in USD ($)"
+                        value={usd}
+                        onChange={e => setUsd(e.target.value)}
+                    />
+                    <p className="rate">1 USD = ₹{RATE} INR (fixed rate)</p>
+                    {inr !== null && !isNaN(inr) && (
+                        <div className="result-box">
+                            <div className="symbol">Indian Rupees (INR)</div>
+                            ₹ {inr}
+                        </div>
+                    )}
+                    <button onClick={() => setUsd('')}>Reset</button>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

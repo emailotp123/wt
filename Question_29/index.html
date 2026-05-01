@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q29: Digital Clock</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1a1a2e; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .clock-card { background: #16213e; padding: 50px 60px; border-radius: 16px; text-align: center; box-shadow: 0 0 40px rgba(0,100,255,0.2); }
+        h2 { color: #aaa; margin-top: 0; font-weight: normal; letter-spacing: 3px; font-size: 14px; text-transform: uppercase; }
+        .time { font-size: 72px; font-weight: bold; color: #00d4ff; font-family: 'Courier New', monospace; letter-spacing: 8px; }
+        .date { color: #888; margin-top: 8px; font-size: 14px; letter-spacing: 2px; }
+        .controls { margin-top: 30px; display: flex; gap: 15px; justify-content: center; }
+        button { padding: 10px 28px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: bold; }
+        .btn-stop  { background: #e74c3c; color: #fff; }
+        .btn-start { background: #2ecc71; color: #fff; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function DigitalClock() {
+            const [time, setTime] = React.useState(new Date());
+            const [running, setRunning] = React.useState(true);
+
+            React.useEffect(() => {
+                if (!running) return;
+                const id = setInterval(() => setTime(new Date()), 1000);
+                return () => clearInterval(id);
+            }, [running]);
+
+            const pad = n => String(n).padStart(2, '0');
+            const hh = pad(time.getHours());
+            const mm = pad(time.getMinutes());
+            const ss = pad(time.getSeconds());
+            const dateStr = time.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            return (
+                <div className="clock-card">
+                    <h2>Digital Clock</h2>
+                    <div className="time">{hh}:{mm}:{ss}</div>
+                    <div className="date">{dateStr}</div>
+                    <div className="controls">
+                        {running
+                            ? <button className="btn-stop"  onClick={() => setRunning(false)}>⏹ Stop</button>
+                            : <button className="btn-start" onClick={() => setRunning(true)}>▶ Resume</button>
+                        }
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<DigitalClock />);
+    </script>
+</body>
+</html>

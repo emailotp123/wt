@@ -1,0 +1,8 @@
+{
+  "name": "blog-api",
+  "version": "1.0.0",
+  "description": "Q34: Blog Management REST API with Express.js",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "express": "^4.18.2" }
+}
