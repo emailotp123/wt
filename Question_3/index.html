@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Operations Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>JavaScript Array Operations</h2>
+    
+    <div class="input-group">
+        <label for="arrInput">Enter Array Elements (comma-separated):</label>
+        <input type="text" id="arrInput" placeholder="e.g. 5, 2, 9, 1, 7 or apple, banana, cherry">
+    </div>
+
+    <div class="buttons">
+        <button onclick="reverseArray()">Reverse Array</button>
+        <button onclick="sortArrayAsc()">Sort Ascending</button>
+        <button onclick="sortArrayDesc()">Sort Descending</button>
+    </div>
+
+    <div class="input-group search-group">
+        <input type="text" id="searchInput" placeholder="Element to search">
+        <button onclick="searchArray()">Search</button>
+    </div>
+
+    <div class="result-area">
+        <h3>Result:</h3>
+        <p id="resultText">No operation performed yet.</p>
+    </div>
+</div>
+
+<script>
+    // Helper function to extract and parse the array from input
+    function getArray() {
+        const input = document.getElementById('arrInput').value;
+        // Split by comma, trim whitespace from edges, and remove empty entries
+        return input.split(',').map(item => item.trim()).filter(item => item !== '');
+    }
+
+    // Helper function to display results
+    function displayResult(text) {
+        document.getElementById('resultText').innerHTML = text;
+    }
+
+    // 1. Reverse operation
+    function reverseArray() {
+        let arr = getArray();
+        if (arr.length === 0) return displayResult("Please enter a valid array.");
+        
+        arr.reverse();
+        displayResult("<strong>Reversed Array:</strong> " + arr.join(', '));
+    }
+
+    // 2. Sorting operation (Ascending)
+    function sortArrayAsc() {
+        let arr = getArray();
+        if (arr.length === 0) return displayResult("Please enter a valid array.");
+        
+        // Try numerical sort first, fallback to string comparison
+        arr.sort((a, b) => {
+            if (!isNaN(a) && !isNaN(b)) return Number(a) - Number(b);
+            return a.localeCompare(b);
+        });
+        displayResult("<strong>Sorted Ascending:</strong> " + arr.join(', '));
+    }
+
+    // 3. Sorting operation (Descending)
+    function sortArrayDesc() {
+        let arr = getArray();
+        if (arr.length === 0) return displayResult("Please enter a valid array.");
+        
+        // Try numerical sort first, fallback to string comparison
+        arr.sort((a, b) => {
+            if (!isNaN(a) && !isNaN(b)) return Number(b) - Number(a);
+            return b.localeCompare(a);
+        });
+        displayResult("<strong>Sorted Descending:</strong> " + arr.join(', '));
+    }
+
+    // 4. Searching operation
+    function searchArray() {
+        let arr = getArray();
+        let searchVal = document.getElementById('searchInput').value.trim();
+        
+        if (arr.length === 0) return displayResult("Please enter a valid array first.");
+        if (searchVal === '') return displayResult("Please enter an element to search for.");
+
+        // Case-insensitive search can also be done, but keeping it exact for accuracy
+        let index = arr.indexOf(searchVal);
+        
+        if (index !== -1) {
+            displayResult(`Element <span class="highlight">${searchVal}</span> found at <strong>index ${index}</strong>.`);
+        } else {
+            displayResult(`Element <span class="highlight">${searchVal}</span> <strong>not found</strong> in the array.`);
+        }
+    }
+</script>
+
+</body>
+</html>
